@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZooShop", "ZooShop\ZooShop.csproj", "{C3B84A0C-1D3C-4585-91F4-BD91556EE49A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{1B8454F3-1DD9-4117-BAF9-A1AB257CBA8F}"
+	ProjectSection(SolutionItems) = preProject
+		SolutionItems\docker-compose.yaml = SolutionItems\docker-compose.yaml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C3B84A0C-1D3C-4585-91F4-BD91556EE49A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3B84A0C-1D3C-4585-91F4-BD91556EE49A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3B84A0C-1D3C-4585-91F4-BD91556EE49A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3B84A0C-1D3C-4585-91F4-BD91556EE49A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
