@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using ZooShop.Configurations;
+using ZooShop.Interfaces;
+using ZooShop.Repositories;
+using ZooShop.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +12,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddNpgsql<ZooShopContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IHashService, HashService>();
 
 var app = builder.Build();
 
@@ -29,6 +35,6 @@ app.Lifetime.ApplicationStarted.Register(async () =>
         await context.Database.MigrateAsync();
     }
 });
-    
+
 
 app.Run();
