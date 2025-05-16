@@ -1,9 +1,7 @@
-﻿using ZooShop.Dtos;
-using ZooShop.Dtos.CreateDtos;
+﻿using ZooShop.Dtos.CreateDtos;
 using ZooShop.Dtos.RequestDtos;
 using ZooShop.Dtos.ResponseDtos;
 using ZooShop.Dtos.UpdateDtos;
-using ZooShop.Entities;
 
 namespace ZooShop.Interfaces;
 

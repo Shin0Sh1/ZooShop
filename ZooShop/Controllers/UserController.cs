@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ZooShop.Dtos;
 using ZooShop.Dtos.CreateDtos;
 using ZooShop.Dtos.UpdateDtos;
 using ZooShop.Interfaces;

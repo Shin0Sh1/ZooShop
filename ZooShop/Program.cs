@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using ZooShop.Configurations;
 using ZooShop.Interfaces;
 using ZooShop.Mapping;
+using ZooShop.Middleware;
 using ZooShop.Options;
 using ZooShop.Repositories;
 using ZooShop.Services;
-using ZooShop.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +37,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ImageMiddleware>();
 
 app.MapControllers();
 app.UseHttpsRedirection();

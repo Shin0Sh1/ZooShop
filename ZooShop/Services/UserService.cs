@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using ZooShop.Dtos;
 using ZooShop.Dtos.CreateDtos;
 using ZooShop.Dtos.RequestDtos;
 using ZooShop.Dtos.ResponseDtos;

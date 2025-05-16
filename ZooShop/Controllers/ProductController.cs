@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ZooShop.Dtos;
 using ZooShop.Dtos.CreateDtos;
-using ZooShop.Dtos.ResponseDtos;
 using ZooShop.Dtos.UpdateDtos;
 using ZooShop.Interfaces;
 
@@ -25,11 +23,28 @@ public class ProductController(IProductService productService) : ControllerBase
         return Ok(product);
     }
 
+    [HttpGet("image/{imageName}")]
+    public async Task<IActionResult> GetImage([FromRoute] string imageName)
+    {
+        var image = await productService.GetProductImageAsync(imageName);
+        return new FileContentResult(image.Image, "application/octet-stream")
+        {
+            FileDownloadName = imageName
+        };
+    }
+
     [HttpPost]
     public async Task<IActionResult> AddProduct([FromBody] CreateProductDto product)
     {
         var productId = await productService.AddProductAsync(product);
         return Ok(productId);
+    }
+
+    [HttpPost("uploadImage")]
+    public async Task<IActionResult> UploadImage([FromForm] UploadProductImageDto productImage)
+    {
+        var imageUrl = await productService.UploadImageAsync(productImage);
+        return Ok(imageUrl);
     }
 
     [HttpPatch]
@@ -44,10 +59,5 @@ public class ProductController(IProductService productService) : ControllerBase
     {
         await productService.DeleteProductAsync(id);
         return NoContent();
-    }
-
-    public async Task<IActionResult> UploadImage([FromForm] IFormFile file)
-    {
-        
     }
 }

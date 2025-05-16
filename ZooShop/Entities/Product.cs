@@ -8,7 +8,7 @@ public class Product : BaseEntity
     public string? Description { get; private set; }
     public decimal Price { get; private set; }
     public int Quantity { get; private set; }
-    public string? ImageUrl { private get; set; }
+    public string? ImageUrl { get; private set; }
     public Categories Category { get; private set; }
 
     public ICollection<OrderItem> OrderItems { get; set; }
@@ -28,8 +28,8 @@ public class Product : BaseEntity
     {
     }
 
-    public void Update(string? name, string? description, decimal? price, int? quantity, string? imageUrl,
-        Categories? category)
+    public void Update(string? name = null, string? description = null, decimal? price = null, int? quantity = null,
+        string? imageUrl = null, Categories? category = null)
     {
         if (name is not null) Name = name;
         if (description is not null) Description = description;

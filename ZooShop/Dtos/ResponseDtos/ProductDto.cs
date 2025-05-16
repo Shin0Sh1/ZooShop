@@ -8,6 +8,6 @@ public class ProductDto
     public string? Description { get; init; }
     public decimal Price { get; init; }
     public int Quantity { get; init; }
-    public IFormFile Image { get; init; }
+    public string ImageUrl { get; init; }
     public Categories Category { get; init; }
 }
