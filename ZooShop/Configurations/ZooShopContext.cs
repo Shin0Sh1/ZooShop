@@ -5,7 +5,7 @@ namespace ZooShop.Configurations;
 
 public class ZooShopContext : DbContext
 {
-    public DbSet<User> Clients { get; set; }
+    public DbSet<User> Users { get; set; }
     public DbSet<Consultant> Consultants { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<Order> Orders { get; set; }

@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-
-namespace ZooShop.Entities;
+﻿namespace ZooShop.Entities;
 
 public abstract class BaseEntity(Guid id)
 {

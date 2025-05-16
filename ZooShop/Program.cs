@@ -1,8 +1,14 @@
+using System.Reflection;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using ZooShop.Configurations;
 using ZooShop.Interfaces;
+using ZooShop.Mapping;
+using ZooShop.Options;
 using ZooShop.Repositories;
 using ZooShop.Services;
+using ZooShop.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +21,13 @@ builder.Services.AddNpgsql<ZooShopContext>(builder.Configuration.GetConnectionSt
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IHashService, HashService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddAutoMapper(typeof(ProductMappingProfile), typeof(OrderMappingProfile), typeof(UserMappingProfile));
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+builder.Services.Configure<ZooShopOptions>(builder.Configuration.GetSection(nameof(ZooShopOptions)));
 
 var app = builder.Build();
 

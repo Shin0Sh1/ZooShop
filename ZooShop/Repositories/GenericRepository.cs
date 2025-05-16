@@ -1,4 +1,5 @@
-﻿using ZooShop.Configurations;
+﻿using Microsoft.EntityFrameworkCore;
+using ZooShop.Configurations;
 using ZooShop.Entities;
 using ZooShop.Interfaces;
 
@@ -13,9 +14,24 @@ public abstract class GenericRepository<TEntity> : IBaseRepository<TEntity> wher
         _context = context;
     }
 
+    public async Task<TEntity?> GetEntityByIdAsync(Guid id)
+    {
+        return await _context.Set<TEntity>().FirstOrDefaultAsync(u => u.Id == id);
+    }
+
+    public async Task<List<TEntity>> GetAllAsync()
+    {
+        return await _context.Set<TEntity>().AsNoTracking().ToListAsync();
+    }
+
     public async Task AddAsync(TEntity entity)
     {
         await _context.AddAsync(entity);
+    }
+
+    public void Remove(TEntity entity)
+    {
+        _context.Set<TEntity>().Remove(entity);
     }
 
     public async Task SaveChangesAsync()

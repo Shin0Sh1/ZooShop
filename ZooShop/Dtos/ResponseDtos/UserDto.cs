@@ -1,8 +1,8 @@
-﻿namespace ZooShop.Dtos;
+﻿namespace ZooShop.Dtos.ResponseDtos;
 
-public class CreateUserDto
+public class UserDto
 {
-    public string? Nickname { get; init; }
+    public required string Nickname { get; init; }
     public required string Email { get; init; }
     public required string Password { get; init; }
     public string? Address { get; init; }
