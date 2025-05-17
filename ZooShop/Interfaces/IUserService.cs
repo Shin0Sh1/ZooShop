@@ -1,4 +1,5 @@
 ﻿using ZooShop.Dtos.CreateDtos;
+using ZooShop.Dtos.DeleteDtos;
 using ZooShop.Dtos.RequestDtos;
 using ZooShop.Dtos.ResponseDtos;
 using ZooShop.Dtos.UpdateDtos;
@@ -13,4 +14,5 @@ public interface IUserService
     Task<Guid> AddOrderAsync(CreateOrderDto order);
     Task UpdateUserAsync(UpdateUserDto updateUserDto);
     Task DeleteUserAsync(Guid userId);
+    Task DeleteOrderAsync(DeleteOrderDto orderDto);
 }

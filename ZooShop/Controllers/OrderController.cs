@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ZooShop.Dtos.CreateDtos;
+using ZooShop.Dtos.DeleteDtos;
 using ZooShop.Dtos.RequestDtos;
 using ZooShop.Interfaces;
 
@@ -21,5 +22,12 @@ public class OrderController(IUserService userService) : ControllerBase
     {
         var orderId = await userService.AddOrderAsync(createOrderDto);
         return Ok(orderId);
+    }
+
+    [HttpDelete]
+    public async Task<IActionResult> DeleteOrder([FromQuery] DeleteOrderDto getOrderDto)
+    {
+        await userService.DeleteOrderAsync(getOrderDto);
+        return NoContent();
     }
 }

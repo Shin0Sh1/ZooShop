@@ -14,6 +14,13 @@ public class UserRepository : GenericRepository<User>, IUserRepository
         _context = context;
     }
 
+    public async Task<User?> GetUserWithOrdersAsync(Guid userId)
+    {
+        return await _context.Users
+            .Include(u => u.Orders)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+    }
+    
     public async Task<Order?> GetOrderByIdAsync(Guid orderId, Guid userId)
     {
         return await _context.Users.Where(u => u.Id == userId).SelectMany(u => u.Orders)

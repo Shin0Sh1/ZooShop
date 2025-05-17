@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ZooShop.Dtos.CreateDtos;
+using ZooShop.Dtos.DeleteDtos;
 using ZooShop.Dtos.RequestDtos;
 using ZooShop.Dtos.ResponseDtos;
 using ZooShop.Dtos.UpdateDtos;
@@ -78,12 +79,33 @@ public class UserService(IUserRepository userRepository, IHashService hashServic
         await userRepository.SaveChangesAsync();
     }
 
+    public async Task AddOrderItemsAsync()
+    {
+    }
+
+    public async Task DeleteOrderItemsAsync()
+    {
+    }
+
     public async Task DeleteUserAsync(Guid userId)
     {
         var user = await userRepository.GetEntityByIdAsync(userId) ??
                    throw new EntityNotFoundException("Пользователь не найден");
 
         userRepository.Remove(user);
+        await userRepository.SaveChangesAsync();
+    }
+
+    public async Task DeleteOrderAsync(DeleteOrderDto orderDto)
+    {
+        var user = await userRepository.GetUserWithOrdersAsync(orderDto.UserId) ??
+                   throw new EntityNotFoundException("Пользователь не найден");
+
+        var order = user.Orders.FirstOrDefault(o => o.Id == orderDto.OrderId) ??
+                    throw new EntityNotFoundException("Заказ не найден");
+
+        user.DeleteOrder(order: order);
+
         await userRepository.SaveChangesAsync();
     }
 }
