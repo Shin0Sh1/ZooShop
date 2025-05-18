@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ZooShop.Dtos.CreateDtos;
 using ZooShop.Dtos.UpdateDtos;
 using ZooShop.Interfaces;
 
 namespace ZooShop.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class ProductController(IProductService productService) : ControllerBase
@@ -33,6 +35,7 @@ public class ProductController(IProductService productService) : ControllerBase
         };
     }
 
+    [Authorize(Roles = "Consultant")]
     [HttpPost]
     public async Task<IActionResult> AddProduct([FromBody] CreateProductDto product)
     {
@@ -40,6 +43,7 @@ public class ProductController(IProductService productService) : ControllerBase
         return Ok(productId);
     }
 
+    [Authorize(Roles = "Consultant")]
     [HttpPost("uploadImage")]
     public async Task<IActionResult> UploadImage([FromForm] UploadProductImageDto productImage)
     {
@@ -47,6 +51,7 @@ public class ProductController(IProductService productService) : ControllerBase
         return Ok(imageUrl);
     }
 
+    [Authorize(Roles = "Consultant")]
     [HttpPatch]
     public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductDto product)
     {
@@ -54,6 +59,7 @@ public class ProductController(IProductService productService) : ControllerBase
         return NoContent();
     }
 
+    [Authorize(Roles = "Consultant")]
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteProduct([FromRoute] Guid id)
     {

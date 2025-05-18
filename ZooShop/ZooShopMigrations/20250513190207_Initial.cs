@@ -1,9 +1,8 @@
-﻿using System;
+﻿#nullable disable
+
 using Microsoft.EntityFrameworkCore.Migrations;
 
-#nullable disable
-
-namespace ZooShop.Migrations
+namespace ZooShop.ZooShopMigrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration

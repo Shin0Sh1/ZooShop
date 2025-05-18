@@ -20,7 +20,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
             .Include(u => u.Orders)
             .FirstOrDefaultAsync(u => u.Id == userId);
     }
-    
+
     public async Task<Order?> GetOrderByIdAsync(Guid orderId, Guid userId)
     {
         return await _context.Users.Where(u => u.Id == userId).SelectMany(u => u.Orders)

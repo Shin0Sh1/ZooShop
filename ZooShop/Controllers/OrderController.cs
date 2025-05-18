@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ZooShop.Dtos.CreateDtos;
 using ZooShop.Dtos.DeleteDtos;
 using ZooShop.Dtos.RequestDtos;
@@ -17,6 +18,7 @@ public class OrderController(IUserService userService) : ControllerBase
         return Ok(order);
     }
 
+    [Authorize(Roles = "User")]
     [HttpPost]
     public async Task<IActionResult> AddOrder([FromBody] CreateOrderDto createOrderDto)
     {
@@ -24,6 +26,7 @@ public class OrderController(IUserService userService) : ControllerBase
         return Ok(orderId);
     }
 
+    [Authorize(Roles = "User")]
     [HttpDelete]
     public async Task<IActionResult> DeleteOrder([FromQuery] DeleteOrderDto getOrderDto)
     {

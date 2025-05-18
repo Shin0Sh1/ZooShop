@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using ZooShop.Configurations;
 using ZooShop.Entities;
 using ZooShop.Interfaces;
@@ -9,7 +10,7 @@ public abstract class GenericRepository<TEntity> : IBaseRepository<TEntity> wher
 {
     private readonly ZooShopContext _context;
 
-    public GenericRepository(ZooShopContext context)
+    protected GenericRepository(ZooShopContext context)
     {
         _context = context;
     }
@@ -18,7 +19,10 @@ public abstract class GenericRepository<TEntity> : IBaseRepository<TEntity> wher
     {
         return await _context.Set<TEntity>().FirstOrDefaultAsync(u => u.Id == id);
     }
-
+    public async Task<TEntity?> GetEntityByFilterAsync(Expression<Func<TEntity, bool>> predicate)
+    {
+        return await _context.Set<TEntity>().FirstOrDefaultAsync(predicate);
+    }
     public async Task<List<TEntity>> GetAllAsync()
     {
         return await _context.Set<TEntity>().AsNoTracking().ToListAsync();

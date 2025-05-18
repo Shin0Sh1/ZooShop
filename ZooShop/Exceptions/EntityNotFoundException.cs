@@ -1,6 +1,8 @@
-﻿namespace ZooShop.Exceptions;
+﻿using ExceptionsLibrary.Exceptions;
 
-public class EntityNotFoundException : Exception
+namespace ZooShop.Exceptions;
+
+public class EntityNotFoundException : NotFoundException
 {
     public EntityNotFoundException(string message) : base(message)
     {

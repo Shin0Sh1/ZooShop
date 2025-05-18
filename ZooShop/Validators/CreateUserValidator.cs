@@ -9,14 +9,12 @@ public class CreateUserValidator : AbstractValidator<CreateUserDto>
 
     public CreateUserValidator()
     {
-        RuleFor(u => u.Nickname)
-            .NotEmpty()
-            .WithMessage("Никнейм обязателен");
         RuleFor(u => u.Email)
             .NotEmpty()
             .WithMessage("Почта обязательна")
             .EmailAddress()
             .WithMessage("Некорректная почта");
+
         RuleFor(u => u.Password)
             .Matches(PasswordRegex)
             .WithMessage("Пароль некорректный");

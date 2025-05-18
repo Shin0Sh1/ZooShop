@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ZooShop.Dtos.CreateDtos;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ZooShop.Dtos.UpdateDtos;
 using ZooShop.Interfaces;
 
@@ -16,13 +16,7 @@ public class UserController(IUserService userService) : ControllerBase
         return Ok(user);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> AddUser([FromBody] CreateUserDto user)
-    {
-        var userId = await userService.AddUserAsync(user);
-        return Ok(userId);
-    }
-
+    [Authorize(Roles = "User")]
     [HttpPatch]
     public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDto user)
     {
@@ -30,6 +24,7 @@ public class UserController(IUserService userService) : ControllerBase
         return NoContent();
     }
 
+    [Authorize(Roles = "User")]
     [HttpDelete("{userId:guid}")]
     public async Task<IActionResult> DeleteUser([FromRoute] Guid userId)
     {

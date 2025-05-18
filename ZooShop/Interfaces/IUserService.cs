@@ -9,6 +9,7 @@ namespace ZooShop.Interfaces;
 public interface IUserService
 {
     Task<UserDto> GetUserByIdAsync(Guid userId);
+    Task<bool> CheckIfUserExistByEmailAsync(string name);
     Task<OrderDto> GetOrderByIdAsync(GetOrderDto orderDto);
     Task<Guid> AddUserAsync(CreateUserDto user);
     Task<Guid> AddOrderAsync(CreateOrderDto order);

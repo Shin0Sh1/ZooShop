@@ -27,17 +27,20 @@ public class UserService(IUserRepository userRepository, IHashService hashServic
         return mapper.Map<UserDto>(userResult);
     }
 
+    public async Task<bool> CheckIfUserExistByEmailAsync(string email)
+    {
+        return await userRepository.GetEntityByFilterAsync(c => c.Email == email) != null;
+    }
+
     public async Task<Guid> AddUserAsync(CreateUserDto user)
     {
         var userId = Guid.NewGuid();
 
-        var userNickname = user.Nickname ?? user.Email;
-
         var userHashedPassword = hashService.Hash(user.Password);
 
-        var createUserResult = new User(id: userId, nickname: userNickname, password: userHashedPassword,
+        var createUserResult = new User(id: userId, nickname: user.Email, password: userHashedPassword,
             email: user.Email,
-            address: user.Address);
+            address: null);
 
         await userRepository.AddAsync(createUserResult);
         await userRepository.SaveChangesAsync();
