@@ -12,8 +12,9 @@ public interface IUserService
     Task<bool> CheckIfUserExistByEmailAsync(string name);
     Task<OrderDto> GetOrderByIdAsync(GetOrderDto orderDto);
     Task<Guid> AddUserAsync(CreateUserDto user);
-    Task<Guid> AddOrderAsync(CreateOrderDto order);
+    Task<Guid> AddOrderItemAsync(CreateOrderItemDto orderItemDto);
     Task UpdateUserAsync(UpdateUserDto updateUserDto);
     Task DeleteUserAsync(Guid userId);
     Task DeleteOrderAsync(DeleteOrderDto orderDto);
+    Task DeleteOrderItemsAsync(DeleteOrderItemDto orderItemDto);
 }

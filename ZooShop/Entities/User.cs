@@ -40,24 +40,36 @@ public class User : BaseEntity
         if (address is not null) Address = address;
     }
 
-    public void AddOrderItems(Guid orderId, List<OrderItem>? orderItems)
+    public void AddOrderItem(Guid orderId, OrderItem orderItem)
     {
-        if (orderItems is not null && orderItems.Count > 0)
+        var order = _orders.FirstOrDefault(o => o.Id == orderId);
+
+        if (order is null)
         {
-            var order = _orders.FirstOrDefault(o => o.Id == orderId) ??
-                        throw new EntityNotFoundException("Заказ не найден");
-            order.AddOrderItems(orderItems);
+            var newOrderId = Guid.NewGuid();
+
+            var newOrder = new Order(id: newOrderId, orderDate: DateTime.UtcNow);
+
+            newOrder.AddOrderItem(orderItem);
+
+            _orders.Add(newOrder);
+        }
+        else
+        {
+            order.AddOrderItem(orderItem);
         }
     }
 
-    public void DeleteOrderItems(Guid orderId, List<OrderItem>? orderItems)
+    public void DeleteOrderItems(Guid orderId, List<Guid> orderItemIds)
     {
-        if (orderItems is not null && orderItems.Count > 0)
-        {
-            var order = _orders.FirstOrDefault(o => o.Id == orderId) ??
-                        throw new EntityNotFoundException("Заказ не найден");
+        var order = _orders.FirstOrDefault(o => o.Id == orderId) ??
+                    throw new EntityNotFoundException("Заказ не найден");
 
-            order.DeleteOrderItems(orderItems);
+        order.DeleteOrderItems(orderItemIds);
+
+        if (order.OrderItems.Count == 0)
+        {
+            DeleteOrder(order);
         }
     }
 

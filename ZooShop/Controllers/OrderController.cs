@@ -19,14 +19,6 @@ public class OrderController(IUserService userService) : ControllerBase
     }
 
     [Authorize(Roles = "User")]
-    [HttpPost]
-    public async Task<IActionResult> AddOrder([FromBody] CreateOrderDto createOrderDto)
-    {
-        var orderId = await userService.AddOrderAsync(createOrderDto);
-        return Ok(orderId);
-    }
-
-    [Authorize(Roles = "User")]
     [HttpDelete]
     public async Task<IActionResult> DeleteOrder([FromQuery] DeleteOrderDto getOrderDto)
     {

@@ -17,4 +17,10 @@ public class OrderItem : BaseEntity
     protected OrderItem() : base(Guid.NewGuid())
     {
     }
+
+    public void Update(int? quantity, decimal? totalPrice)
+    {
+        if(quantity is not null) Quantity = quantity.Value;
+        if(totalPrice is not null) TotalPrice = totalPrice.Value;
+    }
 }

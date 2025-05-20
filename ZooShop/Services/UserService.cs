@@ -48,28 +48,6 @@ public class UserService(IUserRepository userRepository, IHashService hashServic
         return userId;
     }
 
-
-    public async Task<Guid> AddOrderAsync(CreateOrderDto order)
-    {
-        var orderId = Guid.NewGuid();
-        var orderItemId = Guid.NewGuid();
-
-        var user = await userRepository.GetEntityByIdAsync(order.UserId) ??
-                   throw new EntityNotFoundException("Пользователь не найден");
-
-        var orderItems = order.OrderItems.Select(o =>
-                new OrderItem(id: orderItemId, productId: o.ProductId, quantity: o.Quantity, totalPrice: o.TotalPrice))
-            .ToList();
-
-        var createOrderResult = new Order(id: orderId, orderDate: DateTime.UtcNow, orderItems: orderItems);
-
-        user.AddOrder(createOrderResult);
-
-        await userRepository.SaveChangesAsync();
-
-        return orderId;
-    }
-
     public async Task UpdateUserAsync(UpdateUserDto updateUserDto)
     {
         var user = await userRepository.GetEntityByIdAsync(updateUserDto.Id) ??
@@ -82,12 +60,32 @@ public class UserService(IUserRepository userRepository, IHashService hashServic
         await userRepository.SaveChangesAsync();
     }
 
-    public async Task AddOrderItemsAsync()
+    public async Task<Guid> AddOrderItemAsync(CreateOrderItemDto orderItemDto)
     {
+        var user = await userRepository.GetUserWithOrdersAsync(orderItemDto.UserId) ??
+                   throw new EntityNotFoundException("Пользователь не найден");
+
+        var orderItemId = Guid.NewGuid();
+
+        var orderItem = new OrderItem(id: orderItemId, quantity: orderItemDto.Quantity,
+            totalPrice: orderItemDto.TotalPrice,
+            productId: orderItemDto.ProductId);
+
+        user.AddOrderItem(orderId: orderItemDto.OrderId, orderItem);
+
+        await userRepository.SaveChangesAsync();
+
+        return orderItemId;
     }
 
-    public async Task DeleteOrderItemsAsync()
+    public async Task DeleteOrderItemsAsync(DeleteOrderItemDto orderItemDto)
     {
+        var user = await userRepository.GetUserWithOrdersAsync(orderItemDto.UserId) ??
+                   throw new EntityNotFoundException("Пользователь не найден");
+
+        user.DeleteOrderItems(orderItemDto.OrderId, orderItemDto.OrderItemIds);
+
+        await userRepository.SaveChangesAsync();
     }
 
     public async Task DeleteUserAsync(Guid userId)

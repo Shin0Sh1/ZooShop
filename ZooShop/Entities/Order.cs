@@ -8,7 +8,7 @@ public class Order : BaseEntity
     public IReadOnlyCollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
     private readonly List<OrderItem> _orderItems = [];
 
-    public Order(Guid id, DateTime orderDate, ICollection<OrderItem> orderItems) : base(id)
+    public Order(Guid id, DateTime orderDate) : base(id)
     {
         Id = id;
         OrderDate = orderDate;
@@ -18,14 +18,26 @@ public class Order : BaseEntity
     {
     }
 
-    public void AddOrderItems(List<OrderItem>? orderItems)
+    public void AddOrderItem(OrderItem orderItem)
     {
-        if (orderItems is not null && orderItems.Count > 0) _orderItems.AddRange(orderItems);
+        var existOrderItem = _orderItems.FirstOrDefault(u => u.ProductId == orderItem.ProductId);
+        if (existOrderItem is null)
+        {
+            _orderItems.Add(orderItem);
+        }
+        else
+        {
+            existOrderItem.Update(orderItem.Quantity, orderItem.TotalPrice);
+        }
     }
 
-    public void DeleteOrderItems(List<OrderItem>? orderItems)
+    public void DeleteOrderItems(List<Guid> orderItemIds)
     {
-        if (orderItems is null || orderItems.Count <= 0) return;
-        foreach (var orderItem in orderItems) _orderItems.Remove(orderItem);
+        if (orderItemIds.Count <= 0) return;
+        var orders = _orderItems.Where(u => orderItemIds.Contains(u.Id)).ToList();
+        foreach (var order in orders)
+        {
+            _orderItems.Remove(order);
+        }
     }
 }
