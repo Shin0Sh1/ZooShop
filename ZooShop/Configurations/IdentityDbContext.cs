@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using ExceptionsLibrary.Exceptions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ZooShop.Entities;
+using ZooShop.Interfaces;
 
 namespace ZooShop.Configurations;
 
@@ -11,7 +14,8 @@ public class IdentityDbContext : IdentityDbContext<IdentityUser, IdentityRole, s
     {
     }
 
-    public async Task SeedIdentityDataAsync(IServiceProvider serviceProvider)
+    public async Task SeedIdentityDataAsync(IServiceProvider serviceProvider,
+        IConsultantRepository consultantRepository, IHashService hashService)
     {
         var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
         var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
@@ -27,7 +31,7 @@ public class IdentityDbContext : IdentityDbContext<IdentityUser, IdentityRole, s
         }
 
         const string email = "consultant@gmail.com";
-        const string password = "12345KaliteroToThili$";
+        const string password = "12345Kalitero$";
         if (await userManager.FindByEmailAsync(email) == null)
         {
             var user = new IdentityUser
@@ -40,6 +44,15 @@ public class IdentityDbContext : IdentityDbContext<IdentityUser, IdentityRole, s
             {
                 await userManager.AddToRoleAsync(user, "Consultant");
             }
+        }
+
+        if (!await consultantRepository.AnyByFilterAsync(c => c.Email == email))
+        {
+            var findByEmailAsync = await userManager.FindByEmailAsync(email) ??
+                                   throw new NotFoundException("Такого консультанта не существует");
+            await consultantRepository.AddAsync(new Consultant(Guid.NewGuid(), "TEst123", "Ivan", "Karaush", null,
+                DateTime.UtcNow, email, findByEmailAsync.PasswordHash ?? hashService.Hash(password)));
+            await consultantRepository.SaveChangesAsync();
         }
     }
 }

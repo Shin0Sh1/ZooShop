@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Text;
+using System.Text.Json.Serialization;
 using ExceptionsLibrary.Interfaces;
 using ExceptionsLibrary.Middleware;
 using FluentValidation;
@@ -49,14 +50,17 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(c => c.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddNpgsql<ZooShopContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
 builder.Services.AddNpgsql<IdentityDbContext>(builder.Configuration.GetConnectionString("IdentityConnection"));
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IHashService, HashService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IConsultantService, ConsultantService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IConsultantRepository, ConsultantRepository>();
 builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddAutoMapper(typeof(ProductMappingProfile), typeof(OrderMappingProfile), typeof(UserMappingProfile));
 builder.Services.AddFluentValidationAutoValidation();
@@ -115,10 +119,13 @@ app.Lifetime.ApplicationStarted.Register(async () =>
     using (var scope = app.Services.CreateScope())
     {
         var context = scope.ServiceProvider.GetRequiredService<ZooShopContext>();
-        await context.Database.MigrateAsync();
         var identityContext = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
+        var hashService = scope.ServiceProvider.GetRequiredService<IHashService>();
+        var productRepository = scope.ServiceProvider.GetRequiredService<IConsultantRepository>();
+
+        await context.Database.MigrateAsync();
         await identityContext.Database.MigrateAsync();
-        await identityContext.SeedIdentityDataAsync(scope.ServiceProvider);
+        await identityContext.SeedIdentityDataAsync(scope.ServiceProvider, productRepository, hashService);
     }
 });
 

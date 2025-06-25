@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ZooShop.Dtos;
 using ZooShop.Dtos.CreateDtos;
 using ZooShop.Dtos.DeleteDtos;
 using ZooShop.Dtos.RequestDtos;
@@ -20,11 +21,36 @@ public class UserService(IUserRepository userRepository, IHashService hashServic
         return mapper.Map<OrderDto>(orderResult);
     }
 
+    public async Task<UserDto> GetUserByEmailAsync(String email)
+    {
+        var userResult = await userRepository.GetUserByEmailAsync(email) ??
+                         throw new EntityNotFoundException("Пользователь не найден");
+        return mapper.Map<UserDto>(userResult);
+    }
+
     public async Task<UserDto> GetUserByIdAsync(Guid userId)
     {
         var userResult = await userRepository.GetEntityByIdAsync(userId) ??
                          throw new EntityNotFoundException("Пользователь не найден");
         return mapper.Map<UserDto>(userResult);
+    }
+
+    public async Task<Guid> GetUserIdByEmailAsync(string email)
+    {
+        var id = await userRepository.GetEntityByFilterAndSelectAsync(c => c.Email == email, c => c.Id);
+        if (id == Guid.Empty)
+        {
+            throw new EntityNotFoundException("Такого пользователя не существует");
+        }
+
+        return id;
+    }
+
+    public async Task<List<OrderDto>> GetOrdersByFilterAsync(GetOrderByFilterDto orderByFilterDto)
+    {
+        var order = await userRepository.GetOrderByFilterAsync(c => c.Status == orderByFilterDto.Status)
+                    ?? throw new EntityNotFoundException("Заказ не найден");
+        return mapper.Map<List<OrderDto>>(order);
     }
 
     public async Task<bool> CheckIfUserExistByEmailAsync(string email)
@@ -68,14 +94,25 @@ public class UserService(IUserRepository userRepository, IHashService hashServic
         var orderItemId = Guid.NewGuid();
 
         var orderItem = new OrderItem(id: orderItemId, quantity: orderItemDto.Quantity,
-            totalPrice: orderItemDto.TotalPrice,
-            productId: orderItemDto.ProductId);
+            totalPrice: orderItemDto.TotalPrice);
 
         user.AddOrderItem(orderId: orderItemDto.OrderId, orderItem);
 
         await userRepository.SaveChangesAsync();
 
         return orderItemId;
+    }
+
+    public async Task UpdateOrderStatusAsync(UpdateOrderStatus updateOrderStatus)
+    {
+        var user = await userRepository.GetUserWithOrdersAsync(updateOrderStatus.UserId) ??
+                   throw new EntityNotFoundException("Пользователь не найден");
+
+        var order = user.Orders.FirstOrDefault(c => c.Id == updateOrderStatus.OrderId) ??
+                    throw new EntityNotFoundException("Заказ не найден");
+
+        order.Update(updateOrderStatus.OrderStatus);
+        await userRepository.SaveChangesAsync();
     }
 
     public async Task DeleteOrderItemsAsync(DeleteOrderItemDto orderItemDto)

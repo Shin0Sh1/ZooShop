@@ -1,26 +1,35 @@
-﻿namespace ZooShop.Entities;
+﻿using ZooShop.Enums;
+
+namespace ZooShop.Entities;
 
 public class Order : BaseEntity
 {
     public DateTime OrderDate { get; private set; }
     public Guid UserId { get; private set; }
+    public OrderStatus Status { get; private set; }
 
     public IReadOnlyCollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
     private readonly List<OrderItem> _orderItems = [];
 
-    public Order(Guid id, DateTime orderDate) : base(id)
+    public Order(Guid id, DateTime orderDate, OrderStatus status) : base(id)
     {
         Id = id;
         OrderDate = orderDate;
+        Status = status;
     }
 
     private Order() : base(Guid.NewGuid())
     {
     }
 
+    public void Update(OrderStatus status)
+    {
+        Status = status;
+    }
+    
     public void AddOrderItem(OrderItem orderItem)
     {
-        var existOrderItem = _orderItems.FirstOrDefault(u => u.ProductId == orderItem.ProductId);
+        var existOrderItem = _orderItems.FirstOrDefault(u => u.Product.Id == orderItem.Product.Id);
         if (existOrderItem is null)
         {
             _orderItems.Add(orderItem);

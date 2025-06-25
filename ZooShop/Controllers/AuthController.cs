@@ -19,11 +19,13 @@ public class AuthController : ControllerBase
     private readonly UserManager<IdentityUser> _userManager;
     private readonly JwtOptions _options;
     private readonly IUserService _userService;
+    private readonly IConsultantService _consultantService;
 
-    public AuthController(UserManager<IdentityUser> userManager, IOptions<JwtOptions> options, IUserService userService)
+    public AuthController(UserManager<IdentityUser> userManager, IOptions<JwtOptions> options, IUserService userService, IConsultantService consultantService)
     {
         _userManager = userManager;
         _userService = userService;
+        _consultantService = consultantService;
         _options = options.Value;
     }
 
@@ -49,8 +51,15 @@ public class AuthController : ControllerBase
             expires: DateTime.UtcNow.AddHours(_options.ExpiresHours),
             claims: authClaims,
             signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
+        if (loginDto.IsConsultant)
+        {
+            var consultantId = await _consultantService.GetConsultantIdByEmailAsync(loginDto.Email);
+            return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token), userId = consultantId });
+        }
+      
+        var userId = await _userService.GetUserIdByEmailAsync(loginDto.Email);
 
-        return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
+        return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token), userId });
     }
 
     [HttpPost("register")]

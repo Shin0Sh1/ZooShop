@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ZooShop.Dtos.CreateDtos;
 using ZooShop.Dtos.DeleteDtos;
-using ZooShop.Entities;
 using ZooShop.Interfaces;
 
 namespace ZooShop.Controllers;

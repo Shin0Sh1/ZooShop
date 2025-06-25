@@ -1,4 +1,5 @@
-﻿using ZooShop.Exceptions;
+﻿using ZooShop.Enums;
+using ZooShop.Exceptions;
 
 namespace ZooShop.Entities;
 
@@ -40,15 +41,15 @@ public class User : BaseEntity
         if (address is not null) Address = address;
     }
 
-    public void AddOrderItem(Guid orderId, OrderItem orderItem)
+    public void AddOrderItem(Guid? orderId, OrderItem orderItem)
     {
-        var order = _orders.FirstOrDefault(o => o.Id == orderId);
+        var order = _orders.SingleOrDefault(o => o.Id == orderId && o.Status == OrderStatus.InProgress);
 
         if (order is null)
         {
             var newOrderId = Guid.NewGuid();
 
-            var newOrder = new Order(id: newOrderId, orderDate: DateTime.UtcNow);
+            var newOrder = new Order(id: newOrderId, orderDate: DateTime.UtcNow, OrderStatus.InProgress);
 
             newOrder.AddOrderItem(orderItem);
 

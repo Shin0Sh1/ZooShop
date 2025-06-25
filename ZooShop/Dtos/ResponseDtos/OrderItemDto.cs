@@ -2,7 +2,8 @@
 
 public class OrderItemDto
 {
-    public Guid ProductId { get; init; }
+    public Guid? OrderId { get; init; }
+    public ProductDto Product { get; init; }
     public int Quantity { get; init; }
     public decimal TotalPrice { get; init; }
 }

@@ -1,8 +1,8 @@
-﻿using ZooShop.Dtos.CreateDtos;
-
-namespace ZooShop.Dtos.ResponseDtos;
+﻿namespace ZooShop.Dtos.ResponseDtos;
 
 public class OrderDto
 {
-    public required List<CreateOrderItemDto> OrderItems { get; init; }
+    public required Guid Id { get; init; }
+    public required List<OrderItemDto> OrderItems { get; init; }
+    public required String Status { get; init; }
 }

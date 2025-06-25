@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using ZooShop.Dtos.CreateDtos;
+﻿using Microsoft.AspNetCore.Mvc;
+using ZooShop.Dtos;
 using ZooShop.Dtos.DeleteDtos;
 using ZooShop.Dtos.RequestDtos;
+using ZooShop.Dtos.UpdateDtos;
 using ZooShop.Interfaces;
 
 namespace ZooShop.Controllers;
@@ -18,7 +18,20 @@ public class OrderController(IUserService userService) : ControllerBase
         return Ok(order);
     }
 
-    [Authorize(Roles = "User")]
+    [HttpGet("filter")]
+    public async Task<IActionResult> GetOrdersByFilter([FromQuery] GetOrderByFilterDto getOrderByFilterDto)
+    {
+        var orders = await userService.GetOrdersByFilterAsync(getOrderByFilterDto);
+        return Ok(orders);
+    }
+    
+    [HttpPatch]
+    public async Task<IActionResult> UpdateOrderStatus([FromBody] UpdateOrderStatus updateOrderDto)
+    {
+        await userService.UpdateOrderStatusAsync(updateOrderDto);
+        return NoContent();
+    }
+    
     [HttpDelete]
     public async Task<IActionResult> DeleteOrder([FromQuery] DeleteOrderDto getOrderDto)
     {
