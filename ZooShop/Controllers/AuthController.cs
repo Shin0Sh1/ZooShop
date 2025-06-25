@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using ZooShop.Dtos;
-using ZooShop.Interfaces;
+using ZooShop.Application.Dtos;
+using ZooShop.Application.Interfaces;
 using ZooShop.Options;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 

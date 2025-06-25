@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ZooShop.Dtos.UpdateDtos;
-using ZooShop.Interfaces;
+using ZooShop.Application.Dtos.UpdateDtos;
+using ZooShop.Application.Interfaces;
 
 namespace ZooShop.Controllers;
 

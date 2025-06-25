@@ -11,6 +11,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExceptionsLibrary", "Libraries\ExceptionsLibrary\ExceptionsLibrary.csproj", "{0C95F3FA-8F32-4C7A-A096-FA8ECAE784EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZooShop.Application", "ZooShop.Application\ZooShop.Application.csproj", "{20921DD3-7712-4BF3-864E-94C0CB8A91FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZooShop.Infrastructure.Data", "ZooShop.Infrastructure.Data\ZooShop.Infrastructure.Data.csproj", "{DB73D4D3-57BB-4B77-9971-546007FE1DFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZooShop.Infrastructure.Repositories", "ZooShop.Infrastructure.Repositories\ZooShop.Infrastructure.Repositories.csproj", "{57906C46-B5F1-4260-A346-583CC7F94C10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZooShop.Domain", "ZooShop.Domain\ZooShop.Domain.csproj", "{F7F2A1D0-1B01-453B-AF06-3ABB3CEEC4B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +33,22 @@ Global
 		{0C95F3FA-8F32-4C7A-A096-FA8ECAE784EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C95F3FA-8F32-4C7A-A096-FA8ECAE784EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C95F3FA-8F32-4C7A-A096-FA8ECAE784EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20921DD3-7712-4BF3-864E-94C0CB8A91FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20921DD3-7712-4BF3-864E-94C0CB8A91FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20921DD3-7712-4BF3-864E-94C0CB8A91FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20921DD3-7712-4BF3-864E-94C0CB8A91FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB73D4D3-57BB-4B77-9971-546007FE1DFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB73D4D3-57BB-4B77-9971-546007FE1DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB73D4D3-57BB-4B77-9971-546007FE1DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB73D4D3-57BB-4B77-9971-546007FE1DFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57906C46-B5F1-4260-A346-583CC7F94C10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57906C46-B5F1-4260-A346-583CC7F94C10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57906C46-B5F1-4260-A346-583CC7F94C10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57906C46-B5F1-4260-A346-583CC7F94C10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7F2A1D0-1B01-453B-AF06-3ABB3CEEC4B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7F2A1D0-1B01-453B-AF06-3ABB3CEEC4B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7F2A1D0-1B01-453B-AF06-3ABB3CEEC4B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7F2A1D0-1B01-453B-AF06-3ABB3CEEC4B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0C95F3FA-8F32-4C7A-A096-FA8ECAE784EC} = {7F24031D-2145-4445-AB48-976865DD56F4}

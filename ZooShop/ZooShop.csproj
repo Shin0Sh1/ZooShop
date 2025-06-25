@@ -24,6 +24,9 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Libraries\ExceptionsLibrary\ExceptionsLibrary.csproj" />
+      <ProjectReference Include="..\ZooShop.Application\ZooShop.Application.csproj" />
+      <ProjectReference Include="..\ZooShop.Infrastructure.Data\ZooShop.Infrastructure.Data.csproj" />
+      <ProjectReference Include="..\ZooShop.Infrastructure.Repositories\ZooShop.Infrastructure.Repositories.csproj" />
     </ItemGroup>
 
 </Project>

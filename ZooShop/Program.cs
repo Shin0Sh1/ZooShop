@@ -10,13 +10,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using ZooShop.Configurations;
-using ZooShop.Interfaces;
-using ZooShop.Mapping;
+using ZooShop.Application.Extensions;
+using ZooShop.Application.Interfaces;
+using ZooShop.Application.Mapping;
+using ZooShop.Infrastructure.Data.Configurations;
+using ZooShop.Infrastructure.Repositories.Extensions;
 using ZooShop.Middleware;
 using ZooShop.Options;
-using ZooShop.Repositories;
-using ZooShop.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,22 +52,13 @@ builder.Services.AddSwaggerGen(options =>
 });
 builder.Services.AddControllers()
     .AddJsonOptions(c => c.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
-builder.Services.AddNpgsql<ZooShopContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
-builder.Services.AddNpgsql<IdentityDbContext>(builder.Configuration.GetConnectionString("IdentityConnection"));
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IHashService, HashService>();
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IConsultantService, ConsultantService>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IConsultantRepository, ConsultantRepository>();
-builder.Services.AddScoped<IFileService, FileService>();
-builder.Services.AddAutoMapper(typeof(ProductMappingProfile), typeof(OrderMappingProfile), typeof(UserMappingProfile));
+
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 builder.Services.Configure<ZooShopOptions>(builder.Configuration.GetSection(nameof(ZooShopOptions)));
 builder.Services.AddSingleton<IGlobalExceptionMapper, GlobalExceptionMapper>();
-
+builder.Services.RegisterApplication();
+builder.Services.RegisterRepositories(builder.Configuration);
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<IdentityDbContext>()
     .AddDefaultTokenProviders();

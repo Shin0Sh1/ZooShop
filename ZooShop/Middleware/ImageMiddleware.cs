@@ -1,5 +1,5 @@
 ﻿using System.Net.Mime;
-using ZooShop.Interfaces;
+using ZooShop.Application.Interfaces;
 
 namespace ZooShop.Middleware;
 

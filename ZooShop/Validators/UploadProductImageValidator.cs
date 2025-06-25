@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using ZooShop.Dtos.CreateDtos;
+using ZooShop.Application.Dtos.CreateDtos;
 
 namespace ZooShop.Validators;
 
